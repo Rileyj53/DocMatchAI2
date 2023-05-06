@@ -34,6 +34,7 @@ def train_model(training_data, validation_data, n, best, version):
                       valid_data]
 
     # Train the model
+    output_dir = "./medical_profession_model_v" + version
     n_iter = n  # number of training iterations
     batch_size = 8  # batch size for minibatch training
     dropout = 0.4  # dropout rate for regularization
@@ -53,14 +54,13 @@ def train_model(training_data, validation_data, n, best, version):
         # Keep track of the best validation score and save the model
         if scores["ents_f"] > best_score:
             best_score = scores["ents_f"]
-            nlp.to_disk("./medical_profession_test_model")
+            nlp.to_disk(output_dir)
             print(f"New best score: {best_score:.3f}")
             print("Model saved to disk")
 
         # Print the losses and scores at each iteration
         print(f"Iteration {i + 1}: Losses={losses['ner']} Scores={scores['speed']}")
 
-    output_dir = "./medical_profession_model_v" + version
     nlp.to_disk(output_dir)
     print("Model saved to disk" + output_dir)
     print(f"Best score: {best_score:.3f}")
